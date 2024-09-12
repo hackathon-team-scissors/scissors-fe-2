@@ -29,7 +29,7 @@ onMounted(() => {
   
   streaming.value = true;
   navigator.mediaDevices
-    .getUserMedia({ video: true, audio: false })
+    .getUserMedia({ video: { width: 720, height: 1280, facingMode: 'environment' }, audio: false })
     .then((stream) => {
       if (video?.value){
         video.value.srcObject = stream;
@@ -96,11 +96,20 @@ function takepicture() {
   width: 100vw;
   height: 100vh;
 }
+
+.output {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100vw;
+}
+
 #photo {
+  display: flex;
   border: 1px solid black;
   box-shadow: 2px 2px 3px black;
-  width: 100vw;
-  height: 100vh;
+  width: 95%;
 }
 
 .camera {
@@ -121,11 +130,5 @@ function takepicture() {
   font-size: 14px;
   font-family: "Lucida Grande", "Arial", sans-serif;
   color: rgb(255 255 255 / 100%);
-}
-
-.contentarea {
-  font-size: 16px;
-  font-family: "Lucida Grande", "Arial", sans-serif;
-  width: 760px;
 }
 </style>
