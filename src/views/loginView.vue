@@ -32,7 +32,7 @@ import router from '@/router';
   let tokenStore = useTokenStore();
 
   async function login(){
-    event.preventDefault();
+    event?.preventDefault();
     if (!username.value || !password.value){
         errorMessage.value = "Please fill in a username and password!";
         setTimeout(()=>{errorMessage.value = ""}, 3000);

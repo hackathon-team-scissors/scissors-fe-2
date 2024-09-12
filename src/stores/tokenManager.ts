@@ -9,7 +9,7 @@ export const useTokenStore = defineStore('token', () => {
   function hasToken(){
     return !!token.value;
   }
-  function setToken(value){
+  function setToken(value: string){
     token.value = value;
   }
 
