@@ -1,28 +1,38 @@
 <template>
   <div class="wrapper">
     <div>
-      <h1> Your emissions </h1>
+      <h1 class="header"> Your emissions </h1>
     </div>
     <div v-if="loading"> Loading your results! Hold on tiger...</div>
     <div class="item-list" v-else>
       <div class="item-wrapper">
-        <div class="item category bold">Category</div>
+        <div class="item category"></div>
         <div class="item title bold">Title</div>
-        <div class="item co2 bold">Co2 in KG</div>
+        <div class="item co2 bold">Co2 (kg)</div>
         <div class="expand"></div>
       </div>
-      <div class="item-wrapper" v-for="emission of emissions" :key="emission.id">
-        <div class="item category">
-          {{  emission.category }}
+      <div v-for="emission of emissions" :key="emission.id">
+        <div class="item-wrapper">
+          <div class="item category">
+            <v-icon scale="1.5" :name="`fa-${emission.categoryDetails.iconCss}`"/>
+          </div>
+          <div class="item title">
+            {{ emission.title }}
+          </div>
+          <div class="item co2">
+            {{ emission.co2_kg }}kg
+          </div>
+          <div class="expand" @click="()=>{emission.expanded = !emission.expanded}">
+            {{ emission.expanded ? '-' : '+'  }}
+          </div>
         </div>
-        <div class="item title">
-          {{ emission.title }}
-        </div>
-        <div class="item co2">
-          {{ emission.co2_kg }}kg
-        </div>
-        <div class="expand">
-          +
+        <div class="more-information" v-if="emission.expanded">
+          <div class="insight">
+            <p> <em>Insight</em> <br> {{ emission.insight ?? "No insight for this available yet." }} </p>
+          </div>
+          <button @click="addReceipt(emission)">
+            Add receipt
+          </button>
         </div>
       </div>
     </div>
@@ -53,6 +63,23 @@ async function addReceipt(emission: emission){
 </script>
 
 <style>
+
+.insight {
+  color: black;
+}
+
+.more-information {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 10px;
+}
+
+.header {
+  color: whitesmoke;
+  margin: 10px;
+}
+
 .bold {
 font-size: 16px;
 font-weight: bold;
@@ -79,12 +106,16 @@ font-weight: bold;
   display: flex;
   flex-direction: row;
   width: 95vw;
+  height: 60px;
+  padding-left: 5%;
+  padding-right: 5%;
   justify-content: space-between;
   border: 1px solid black;
 }
 
 .item {
   color: black;
+  display: flex;
   font-size: 12px;
   padding: 6px;
 }
@@ -92,17 +123,32 @@ font-weight: bold;
 .category {
   width: 10%;
   min-width: 10%;
+  align-items: center;
+  justify-content: center;
 }
 
-.title, .co2 {
-  width: 25%;
-  min-width: 25%;
+.title {
+  width: 40%;
+  min-width: 40%;
+  align-items: center;
+  justify-content: center;
+}
+
+.co2 {
+  width: 10%;
+  min-width: 10%;
+  align-items: center;
+  justify-content: center;
 }
 
 .expand {
+  display:flex;
   width: 10%;
+  font-size: 20px;
   min-width: 10%;
   color: black;
+  align-items: center;
+  justify-content: center;
 }
 
 </style>
