@@ -44,8 +44,7 @@ import router from '@/router';
   }
 
   </script>
-  <style>
-  @media (min-width: 1024px) {
+  <style scoped>
     .login {
       min-height: 100vh;
       display: flex;
@@ -69,6 +68,5 @@ import router from '@/router';
         margin: 10px;
         align-items: center;
     }
-  }
   </style>
   
