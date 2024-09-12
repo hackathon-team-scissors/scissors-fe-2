@@ -13,6 +13,8 @@ const tokenStore = useTokenStore();
 onMounted(()=>{
   if (!tokenStore.hasToken()){
     router.push('/login');
+  } else {
+    router.push('/emissions');
   }
 })
 
