@@ -24,7 +24,7 @@
   import { ref } from 'vue';
   
   import { useTokenStore } from '@/stores/tokenManager';
-import router from '@/router';
+  import router from '@/router';
 
   let errorMessage = ref('');
   let password = ref('');

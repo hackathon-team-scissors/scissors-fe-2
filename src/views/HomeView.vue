@@ -28,9 +28,9 @@
         </div>
         <div class="more-information" v-if="emission.expanded">
           <div class="insight">
-            <p> <em>Insight</em> <br> {{ emission.insight ?? "No insight for this available yet." }} </p>
+            <p style="padding: 6px"> <em style="font-weight: bold">Insight</em> <br> {{ emission.insight ?? "No insight for this available yet." }} </p>
           </div>
-          <button @click="addReceipt(emission)">
+          <button style="height: 40px; width: 80px; align-self: center;" @click="addReceipt(emission)">
             Add receipt
           </button>
         </div>
@@ -41,6 +41,8 @@
 
 <script setup lang="ts">
 import { getArrayOfEmissions } from '@/helpers/backend';
+import router from '@/router';
+import { useTokenStore } from '@/stores/tokenManager';
 import { type emission } from '@/types/backend';
 import { onMounted, ref } from 'vue';
 
@@ -58,14 +60,17 @@ onMounted(async ()=>{
 })
 
 async function addReceipt(emission: emission){
-  
+    useTokenStore().emissionId = emission.id;
+    router.push('/camera')
 }
+
 </script>
 
 <style>
 
 .insight {
   color: black;
+  width: 80%;
 }
 
 .more-information {

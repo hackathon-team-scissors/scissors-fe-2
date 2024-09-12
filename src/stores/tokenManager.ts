@@ -2,7 +2,9 @@ import { ref } from 'vue'
 import { defineStore } from 'pinia'
 
 export const useTokenStore = defineStore('token', () => {
-  const token = ref('')
+  const token = ref('');
+  const emissionId = ref('');
+
   function getToken() {
     return token.value;
   }
@@ -12,9 +14,9 @@ export const useTokenStore = defineStore('token', () => {
   function setToken(value: string){
     token.value = value;
   }
-  return { getToken, hasToken, setToken, token }
+  return { getToken, hasToken, setToken, token, emissionId}
 }, { 
   persist: {
     storage: sessionStorage,
-    pick: ['token']
+    pick: ['token', 'emissionId']
   }})
