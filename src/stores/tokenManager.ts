@@ -12,6 +12,9 @@ export const useTokenStore = defineStore('token', () => {
   function setToken(value: string){
     token.value = value;
   }
-
-  return { getToken, hasToken, setToken }
-})
+  return { getToken, hasToken, setToken, token }
+}, { 
+  persist: {
+    storage: sessionStorage,
+    pick: ['token']
+  }})
