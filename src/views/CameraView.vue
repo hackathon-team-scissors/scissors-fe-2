@@ -1,54 +1,31 @@
 <template>
-  <div class="contentarea">
-    <h1>
-      MDN - navigator.mediaDevices.getUserMedia(): Still photo capture demo
-    </h1>
-    <p>
-      This example demonstrates how to set up a media stream using your built-in
-      webcam, fetch an image from that stream, and create a PNG using that
-      image.
-    </p>
-    <div class="camera">
-      <video id="video">Video stream not available.</video>
-      <button id="startbutton">Take photo</button>
-    </div>
-    <canvas id="canvas"> </canvas>
+  <div v-show="streaming" class="video">
+    <video id="video"></video>
+    <button id="startbutton">Take photo</button>
+  </div>
+  <div v-show="!streaming">
+    <canvas v-show="false" id="canvas"> </canvas>
     <div class="output">
       <img id="photo" alt="The screen capture will appear in this box." />
     </div>
-    <p>
-      Visit our article
-      <a
-        href="https://developer.mozilla.org/en-US/docs/Web/API/Media_Capture_and_Streams_API/Taking_still_photos"
-      >
-        Taking still photos with WebRTC</a
-      >
-      to learn more about the technologies used here.
-    </p>
   </div>
 </template>
 
-<script>
+<script setup lang="ts">
+import { ref } from "vue";
+
+let streaming = ref(false);
+
 (() => {
-  // The width and height of the captured photo. We will set the
-  // width to the value defined here, but the height will be
-  // calculated based on the aspect ratio of the input stream.
-
   const width = 320; // We will scale the photo width to this
-  let height = 0; // This will be computed based on the input stream
+  let height = 320;
 
-  // |streaming| indicates whether or not we're currently streaming
-  // video from the camera. Obviously, we start at false.
+  streaming.value = true;
 
-  let streaming = false;
-
-  // The various HTML elements we need to configure or control. These
-  // will be set by the startup() function.
-
-  let video = null;
-  let canvas = null;
-  let photo = null;
-  let startbutton = null;
+  let video: unknown = null;
+  let canvas: unknown = null;
+  let photo: unknown = null;
+  let startbutton: unknown = null;
 
   function showViewLiveResultButton() {
     if (window.self !== window.top) {
@@ -87,7 +64,7 @@
     video.addEventListener(
       "canplay",
       (ev) => {
-        if (!streaming) {
+        if (!streaming.value) {
           height = video.videoHeight / (video.videoWidth / width);
 
           // Firefox currently has a bug where the height can't be read from
@@ -101,7 +78,7 @@
           video.setAttribute("height", height);
           canvas.setAttribute("width", width);
           canvas.setAttribute("height", height);
-          streaming = true;
+          streaming.value = true;
         }
       },
       false
@@ -130,22 +107,17 @@
     const data = canvas.toDataURL("image/png");
     photo.setAttribute("src", data);
   }
-
-  // Capture a photo by fetching the current contents of the video
-  // and drawing it into a canvas, then converting that to a PNG
-  // format data URL. By drawing it on an offscreen canvas and then
-  // drawing that to the screen, we can change its size and/or apply
-  // other changes before drawing it.
-
   function takepicture() {
     const context = canvas.getContext("2d");
     if (width && height) {
       canvas.width = width;
-      canvas.height = height;
+      canvas.height = video.videoHeight / (video.videoWidth / width);
       context.drawImage(video, 0, 0, width, height);
 
       const data = canvas.toDataURL("image/png");
       photo.setAttribute("src", data);
+      streaming.value = false;
+      console.log("coming here");
     } else {
       clearphoto();
     }
@@ -157,34 +129,24 @@
 })();
 </script>
 
-<style scoped>
+<style>
 #video {
-  border: 1px solid black;
-  box-shadow: 2px 2px 3px black;
-  width: 320px;
-  height: 240px;
+  /* border: 1px solid black;
+  box-shadow: 2px 2px 3px black; */
+  width: 100vw;
+  height: 100vh;
 }
-
 #photo {
   border: 1px solid black;
   box-shadow: 2px 2px 3px black;
-  width: 320px;
-  height: 240px;
-}
-
-#canvas {
-  display: none;
+  width: 100vw;
+  height: 100vh;
 }
 
 .camera {
-  width: 340px;
-  display: inline-block;
-}
-
-.output {
-  width: 340px;
-  display: inline-block;
-  vertical-align: top;
+  width: 100%;
+  margin: 0;
+  /* display: inline-block; */
 }
 
 #startbutton {
