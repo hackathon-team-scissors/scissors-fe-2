@@ -12,11 +12,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, onMounted} from "vue";
+import { useTokenStore } from '@/stores/tokenManager';
 
 let streaming = ref(false);
+const tokenStore = useTokenStore();
 
-(() => {
+onMounted(() => {
   const width = 320; // We will scale the photo width to this
   let height = 320;
 
@@ -117,7 +119,7 @@ let streaming = ref(false);
       const data = canvas.toDataURL("image/png");
       photo.setAttribute("src", data);
       streaming.value = false;
-      console.log("coming here");
+      console.log(`id is ${tokenStore.emissionId}`);
     } else {
       clearphoto();
     }
@@ -126,7 +128,7 @@ let streaming = ref(false);
   // Set up our event listener to run the startup process
   // once loading is complete.
   window.addEventListener("load", startup, false);
-})();
+});
 </script>
 
 <style>
