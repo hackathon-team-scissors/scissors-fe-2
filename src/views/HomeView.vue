@@ -75,6 +75,7 @@ async function addReceipt(emission: emission){
 
 .more-information {
   display: flex;
+  width: 95vw;
   flex-direction: row;
   justify-content: space-between;
   padding: 10px;
@@ -91,18 +92,21 @@ font-weight: bold;
 }
 
 .wrapper {
+  background-image: url('../assets/background.jpg');
   display: flex;
   align-items: center;
   flex-direction: column;
   justify-items: start;
-  height: 100vh;
+  height: 100%;
   width: 100vw;
-  margin-top: 16px;
+  padding-top: 16px;
 }
 
 .item-list {
   display: flex;
+  overflow-y: scroll;
   flex-direction: column;
+  height: 100vh;
   background: rgb(227, 227, 227);
   border-radius: 10px;
 }
@@ -111,7 +115,7 @@ font-weight: bold;
   display: flex;
   flex-direction: row;
   width: 95vw;
-  height: 60px;
+  height: 80px;
   padding-left: 5%;
   padding-right: 5%;
   justify-content: space-between;

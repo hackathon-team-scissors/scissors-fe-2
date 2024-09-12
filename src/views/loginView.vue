@@ -3,15 +3,13 @@
         <div v-if="errorMessage" class="error-message">
             <p> {{ errorMessage }}</p>
         </div>
-      <h1>Login to see your CO2 emission!</h1>
+      <h1 style="font-size: 20px; font-weight: bold; color: white;">Login to see your CO2 emission</h1>
       <form>
         <div class="input-field">
-        <label>Username</label>
-        <input v-model="username" type="text"/>
+        <input v-model="username" placeholder="Username" type="text"/>
         </div>
         <div class="input-field">
-        <label>Password</label>
-        <input v-model="password" type="password"/>
+        <input v-model="password" placeholder="Password" type="password"/>
         </div>
         <div class="submit">
             <button @click="login">Login</button>
@@ -47,6 +45,9 @@
   <style scoped>
     .login {
       min-height: 100vh;
+      background-image: url('../assets/background.jpg');
+      width: 100vw;
+      background-size: cover;
       display: flex;
       align-items: center;
       justify-content: center;

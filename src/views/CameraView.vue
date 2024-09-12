@@ -1,134 +1,92 @@
 <template>
   <div v-show="streaming" class="video">
-    <video id="video"></video>
-    <button id="startbutton">Take photo</button>
+    <video @canplay="onCanPlay" ref="video" id="video"></video>
+    <button @click="takepicture" id="startbutton">Take photo</button>
   </div>
   <div v-show="!streaming">
-    <canvas v-show="false" id="canvas"> </canvas>
+    <canvas ref="canvas" v-show="false" id="canvas"> </canvas>
     <div class="output">
-      <img id="photo" alt="The screen capture will appear in this box." />
+      <img ref="photo" id="photo" alt="The screen capture will appear in this box." />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted} from "vue";
-import { useTokenStore } from '@/stores/tokenManager';
 
+let video = ref<InstanceType<typeof HTMLVideoElement>>();
+let canvas = ref<InstanceType<typeof HTMLCanvasElement>>();
+let photo = ref<InstanceType<typeof HTMLImageElement>>();
 let streaming = ref(false);
-const tokenStore = useTokenStore();
+const width = 320; // We will scale the photo width to this
+let height = 320;
 
 onMounted(() => {
-  const width = 320; // We will scale the photo width to this
-  let height = 320;
-
+  if (!video.value || !canvas.value || !photo.value){
+    console.warn("Elements are not mounted properly!")
+    return;
+  }
+  
   streaming.value = true;
+  navigator.mediaDevices
+    .getUserMedia({ video: true, audio: false })
+    .then((stream) => {
+      if (video?.value){
+        video.value.srcObject = stream;
+        video.value.play();
+      }
+    })
+    .catch((err) => {
+      console.error(`An error occurred: ${err}`);
+    });
 
-  let video: unknown = null;
-  let canvas: unknown = null;
-  let photo: unknown = null;
-  let startbutton: unknown = null;
+  // function clearphoto() {
+  //   if (canvas.value && photo.value){
+  //     const context = canvas.value.getContext("2d");
+  //     if (context){
+  //       context.fillStyle = "#AAA";
+  //       context.fillRect(0, 0, canvas.value.width, canvas.value.height);
+  //     }
 
-  function showViewLiveResultButton() {
-    if (window.self !== window.top) {
-      // Ensure that if our document is in a frame, we get the user
-      // to first open it in its own tab or window. Otherwise, it
-      // won't be able to request permission for camera access.
-      document.querySelector(".contentarea").remove();
-      const button = document.createElement("button");
-      button.textContent = "View live result of the example code above";
-      document.body.append(button);
-      button.addEventListener("click", () => window.open(location.href));
-      return true;
-    }
-    return false;
-  }
-
-  function startup() {
-    if (showViewLiveResultButton()) {
-      return;
-    }
-    video = document.getElementById("video");
-    canvas = document.getElementById("canvas");
-    photo = document.getElementById("photo");
-    startbutton = document.getElementById("startbutton");
-
-    navigator.mediaDevices
-      .getUserMedia({ video: true, audio: false })
-      .then((stream) => {
-        video.srcObject = stream;
-        video.play();
-      })
-      .catch((err) => {
-        console.error(`An error occurred: ${err}`);
-      });
-
-    video.addEventListener(
-      "canplay",
-      (ev) => {
-        if (!streaming.value) {
-          height = video.videoHeight / (video.videoWidth / width);
-
-          // Firefox currently has a bug where the height can't be read from
-          // the video, so we will make assumptions if this happens.
-
-          if (isNaN(height)) {
-            height = width / (4 / 3);
-          }
-
-          video.setAttribute("width", width);
-          video.setAttribute("height", height);
-          canvas.setAttribute("width", width);
-          canvas.setAttribute("height", height);
-          streaming.value = true;
-        }
-      },
-      false
-    );
-
-    startbutton.addEventListener(
-      "click",
-      (ev) => {
-        takepicture();
-        ev.preventDefault();
-      },
-      false
-    );
-
-    clearphoto();
-  }
-
-  // Fill the photo with an indication that none has been
-  // captured.
-
-  function clearphoto() {
-    const context = canvas.getContext("2d");
-    context.fillStyle = "#AAA";
-    context.fillRect(0, 0, canvas.width, canvas.height);
-
-    const data = canvas.toDataURL("image/png");
-    photo.setAttribute("src", data);
-  }
-  function takepicture() {
-    const context = canvas.getContext("2d");
-    if (width && height) {
-      canvas.width = width;
-      canvas.height = video.videoHeight / (video.videoWidth / width);
-      context.drawImage(video, 0, 0, width, height);
-
-      const data = canvas.toDataURL("image/png");
-      photo.setAttribute("src", data);
-      streaming.value = false;
-      console.log(`id is ${tokenStore.emissionId}`);
-    } else {
-      clearphoto();
-    }
-  }
-
-  // Set up our event listener to run the startup process
-  // once loading is complete.
-  window.addEventListener("load", startup, false);
+  //     const data = canvas.value.toDataURL("image/png");
+  //     photo.value.setAttribute("src", data);
+  //   }
+  // }
 });
+
+function onCanPlay(){
+  if (!streaming.value && video.value && canvas.value) {
+        height = video.value.videoHeight / (video.value.videoWidth / width);
+
+        // Firefox currently has a bug where the height can't be read from
+        // the video, so we will make assumptions if this happens.
+
+        if (isNaN(height)) {
+          height = width / (4 / 3);
+        }
+
+        video.value.setAttribute("width", `${width}`);
+        video.value.setAttribute("height", `${height}`);
+        canvas.value.setAttribute("width", `${width}`);
+        canvas.value.setAttribute("height", `${height}`);
+        streaming.value = true;
+      }
+    }
+
+function takepicture() {
+    event?.preventDefault();
+    const context = canvas?.value?.getContext("2d");
+    if (width && height && video.value && canvas.value && context && photo.value) {
+      canvas.value.width = width;
+      canvas.value.height = video.value.videoHeight / (video.value.videoWidth / width);
+      context.drawImage(video.value, 0, 0, width, height);
+
+      const data = canvas.value.toDataURL("image/png");
+      photo.value.setAttribute("src", data);
+      streaming.value = false;
+    }
+}
+
 </script>
 
 <style>
