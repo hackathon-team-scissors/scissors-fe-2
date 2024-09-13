@@ -3,6 +3,10 @@
         <div v-if="errorMessage" class="error-message">
             <p> {{ errorMessage }}</p>
         </div>
+        <div class="flex improvements" style="height: 100vh; flex-direction: row;" v-if="loading">
+          <v-icon animation="spin" style="color: white; margin-right: 12px" name="fa-spinner" scale="2" />
+          <p style="color: white; font-size: 24px;"> Loading results...</p>
+        </div>
       <h1 style="font-size: 20px; font-weight: bold; color: white;">Import you data</h1>
       <form>
         <p>Gmail account: Connected ✅</p>
@@ -31,12 +35,14 @@
 import { ProcessData } from '@/helpers/backend';
 
   let errorMessage = ref('');
+  let loading = ref(false);
 
   async function readFile(event: any) {
     const textData = await event.target.files[0].text()
 
     console.log(textData);
 
+    loading.value = true;
     await ProcessData(textData);
     router.push('/emissions');
 
