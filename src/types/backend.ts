@@ -2,6 +2,7 @@ export interface emission {
     categoryDetails: {
         iconCss: string;
     };
+    calculation_description: string;
     expanded: boolean;
     co2_kg: number;
     title: string;

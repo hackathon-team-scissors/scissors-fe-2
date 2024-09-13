@@ -26,9 +26,7 @@ import { ProcessData } from '@/helpers/backend';
 
   let errorMessage = ref('');
 
-  async function readFile(event) {
-    console.log("read", event)
-
+  async function readFile(event: any) {
     const textData = await event.target.files[0].text()
 
     console.log(textData);
