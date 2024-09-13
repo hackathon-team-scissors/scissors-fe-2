@@ -5,13 +5,6 @@
     </div>
     <div v-if="loading"> Loading your results! Hold on tiger...</div>
     <div class="item-list" v-else>
-      <div>
-        <ul >
-          <li v-for="advice of advices" :key="advice" style="color: black" >
-            {{advice}}
-          </li>
-        </ul>
-      </div>
       <div class="item-wrapper">
         <div class="item category"></div>
         <div class="item title bold">Title</div>
