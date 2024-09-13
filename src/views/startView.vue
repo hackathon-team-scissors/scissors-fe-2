@@ -22,6 +22,7 @@
   import { ref } from 'vue';
   
   import router from '@/router';
+import { ProcessData } from '@/helpers/backend';
 
   let errorMessage = ref('');
 
@@ -31,6 +32,10 @@
     const textData = await event.target.files[0].text()
 
     console.log(textData);
+
+    await ProcessData(textData);
+    router.push('/emissions');
+
   }
 
   async function next(){
