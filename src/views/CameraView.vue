@@ -182,8 +182,8 @@ async function clearPhoto(){
 #video {
   /* border: 1px solid black;
   box-shadow: 2px 2px 3px black; */
-  width: 100vw;
-  height: 100vh;
+  width: 80vw;
+  height: 80vh;
 }
 
 .output {
@@ -220,6 +220,7 @@ async function clearPhoto(){
   align-items: center;
   justify-content: center;
   position: fixed;
+  z-index: 1000;
   bottom: 80px;
   height: 60px;
   width: 60px;

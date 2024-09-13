@@ -47,7 +47,7 @@
 </template>
 
 <script setup lang="ts">
-import { GetAdvices, getArrayOfEmissions } from '@/helpers/backend';
+import { getArrayOfEmissions } from '@/helpers/backend';
 import router from '@/router';
 import { useTokenStore } from '@/stores/tokenManager';
 import { type emission } from '@/types/backend';
@@ -58,7 +58,6 @@ const FALLBACK_EMISSIONS = [
     ];
 
 let emissions = ref([] as Array<emission>);
-let advices = ref([] as Array<emission>);
 
 let loading = ref(true);
 
@@ -131,7 +130,7 @@ font-weight: bold;
   display: flex;
   flex-direction: row;
   width: 95vw;
-  height: 80px;
+  height: 90px;
   padding-left: 5%;
   padding-right: 5%;
   justify-content: space-between;
