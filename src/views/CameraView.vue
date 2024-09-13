@@ -134,6 +134,17 @@ async function clearPhoto(){
       const data = canvas.value.toDataURL("image/png");
       photo.value.setAttribute("src", data);
       streaming.value = true;
+      navigator.mediaDevices
+        .getUserMedia({ video: { width: 720, height: 1280, facingMode: 'environment' }, audio: false })
+        .then((stream) => {
+          if (video?.value){
+            video.value.srcObject = stream;
+            video.value.play();
+          }
+        })
+        .catch((err) => {
+          console.error(`An error occurred: ${err}`);
+        });
     }
 }
 

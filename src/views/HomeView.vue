@@ -130,7 +130,7 @@ font-weight: bold;
   display: flex;
   flex-direction: row;
   width: 95vw;
-  height: 90px;
+  min-height: 90px;
   padding-left: 5%;
   padding-right: 5%;
   justify-content: space-between;
