@@ -220,6 +220,7 @@ async function clearPhoto(){
   align-items: center;
   justify-content: center;
   position: fixed;
+  z-index: 1000;
   bottom: 80px;
   height: 60px;
   width: 60px;
