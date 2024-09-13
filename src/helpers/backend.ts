@@ -1,4 +1,5 @@
 import { useTokenStore } from "@/stores/tokenManager";
+import type { emissionDetails } from "@/types/backend";
 
 const BASE_URL = "https://hackathon-scissors.hasura.app/api/rest";
 
@@ -22,4 +23,17 @@ export async function getArrayOfEmissions(){
         throw new Error(`Response status: ${response.status}`);
     }
     return response.json();
+}
+
+export async function addReceipt(emissionId: string){
+    const tokenStore = useTokenStore();
+    const { token } = tokenStore;
+    const path = "/receiptscan";
+    const data = {itemId: emissionId};
+    const headers = { Authorization: `Bearer ${token}` };
+    const response = await fetch(`${BASE_URL}${path}`, {method: "POST", body: JSON.stringify(data), headers});
+    if (!response.ok){
+        throw new Error(`Response status: ${response.status}`);
+    }
+    return response.json() as unknown as emissionDetails;
 }

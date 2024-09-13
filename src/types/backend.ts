@@ -9,3 +9,11 @@ export interface emission {
     insight: string;
     category: string;
 }
+
+export interface emissionDetails {
+    ReceiptScan: {
+        details: string;
+        origin_co2_impact: number;
+        updated_co2_impact: number;
+    }
+}
