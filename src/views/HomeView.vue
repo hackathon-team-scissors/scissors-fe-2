@@ -5,6 +5,13 @@
     </div>
     <div v-if="loading"> Loading your results! Hold on tiger...</div>
     <div class="item-list" v-else>
+      <div>
+        <ul >
+          <li v-for="advice of advices" :key="advice" style="color: black" >
+            {{advice}}
+          </li>
+        </ul>
+      </div>
       <div class="item-wrapper">
         <div class="item category"></div>
         <div class="item title bold">Title</div>
@@ -47,7 +54,7 @@
 </template>
 
 <script setup lang="ts">
-import { getArrayOfEmissions } from '@/helpers/backend';
+import { GetAdvices, getArrayOfEmissions } from '@/helpers/backend';
 import router from '@/router';
 import { useTokenStore } from '@/stores/tokenManager';
 import { type emission } from '@/types/backend';
@@ -58,11 +65,20 @@ const FALLBACK_EMISSIONS = [
     ];
 
 let emissions = ref([] as Array<emission>);
+let advices = ref([] as Array<emission>);
+
 let loading = ref(true);
 
 onMounted(async ()=>{
+
   const { co2_record } = await getArrayOfEmissions();
   emissions.value = co2_record ?? FALLBACK_EMISSIONS;
+
+    // const res = await GetAdvices();
+    // console.log(res.getGroupInsight.advices)
+    // advices.value = res.getGroupInsight.advices;
+
+
   loading.value = false;
 })
 
