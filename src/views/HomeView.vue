@@ -28,7 +28,14 @@
         </div>
         <div class="more-information" v-if="emission.expanded">
           <div class="insight">
-            <p style="padding: 6px"> <em style="font-weight: bold">Insight</em> <br> {{ emission.insight ?? "No insight for this available yet." }} </p>
+            <h3 style="font-weight: bold">Calculation Details</h3>
+            <p style="padding: 6px"> {{ emission.calculation_description ?? "No calculation details yet" }} </p>
+
+            <span  v-if="emission.insight">
+              <h3 style="font-weight: bold">Improvement Insight</h3>
+              <p style="padding: 6px"> {{ emission.insight }} </p>
+            </span>
+
           </div>
           <button style="height: 40px; width: 80px; align-self: center;" @click="addReceipt(emission)">
             Add receipt
