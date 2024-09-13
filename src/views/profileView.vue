@@ -122,7 +122,7 @@ const carOptions = ref([
   { text: "Electric", value: "Electric" },
 ]);
 async function next() {
-  router.push("/emissions");
+  router.push("/start");
 }
 </script>
 <style scoped>
@@ -142,6 +142,7 @@ async function next() {
   text-align: center;
   letter-spacing: 2px;
 }
+
 .error-message {
   background-color: crimson;
   padding: 10px;
