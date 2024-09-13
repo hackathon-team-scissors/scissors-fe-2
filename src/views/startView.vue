@@ -8,12 +8,13 @@
         <p>Gmail account: Connected ✅</p>
 
         <label for="statement">Select your bank statement:</label>
-        <input ref="fileInput" id="statement" type="file" />
+        <input ref="fileInput" id="statement" type="file" @change="readFile" />
 
 
         <div class="submit">
-            <button @click="next">Next</button>
+            <button @click="next">Skip</button>
         </div>
+
     </form>
     </div>
   </template>
@@ -23,6 +24,14 @@
   import router from '@/router';
 
   let errorMessage = ref('');
+
+  async function readFile(event) {
+    console.log("read", event)
+
+    const textData = await event.target.files[0].text()
+
+    console.log(textData);
+  }
 
   async function next(){
     router.push('/emissions');
