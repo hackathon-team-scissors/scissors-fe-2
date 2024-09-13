@@ -58,3 +58,20 @@ export async function ProcessData(statement: string){
     }
     return response.json();
 }
+
+export async function GetAdvices(){
+    const tokenStore = useTokenStore();
+    const { token } = tokenStore;
+    const path = "/advices";
+    const headers = { 
+        Authorization: `Bearer ${token}`,
+    };
+    const response = await fetch(`${BASE_URL}${path}`, {
+        headers,
+        method: 'POST',
+    });
+    if (!response.ok){
+        throw new Error(`Response status: ${response.status}`);
+    }
+    return response.json();
+}
