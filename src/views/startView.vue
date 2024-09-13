@@ -44,7 +44,9 @@ import { ProcessData } from '@/helpers/backend';
 
     loading.value = true;
     await ProcessData(textData);
-    router.push('/emissions');
+    setTimeout(() => {
+      router.push('/emissions');
+    }, 2000);
 
   }
 
