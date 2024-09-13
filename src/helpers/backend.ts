@@ -37,3 +37,24 @@ export async function addReceipt(emissionId: string){
     }
     return response.json() as unknown as emissionDetails;
 }
+
+export async function ProcessData(statement: string){
+    const tokenStore = useTokenStore();
+    const { token } = tokenStore;
+    const path = "/processdata";
+    const headers = { 
+        Authorization: `Bearer ${token}`,
+        'content-type': 'application/json',
+    };
+    const response = await fetch(`${BASE_URL}${path}`, {
+        headers,
+        method: 'POST',
+        body: JSON.stringify({
+            statement
+        })
+    });
+    if (!response.ok){
+        throw new Error(`Response status: ${response.status}`);
+    }
+    return response.json();
+}
