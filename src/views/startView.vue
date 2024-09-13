@@ -3,16 +3,22 @@
         <div v-if="errorMessage" class="error-message">
             <p> {{ errorMessage }}</p>
         </div>
-      <h1 style="font-size: 20px; font-weight: bold; color: white;">startView</h1>
+      <h1 style="font-size: 20px; font-weight: bold; color: white;">Import you data</h1>
       <form>
         <p>Gmail account: Connected ✅</p>
+        <br/>
 
         <label for="statement">Select your bank statement:</label>
         <input ref="fileInput" id="statement" type="file" @change="readFile" />
 
 
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+
         <div class="submit">
-            <button @click="next">Skip</button>
+            <button style="width: 50px; margin: 0 auto; text: align-center;" @click="next">Skip</button>
         </div>
 
     </form>
@@ -62,6 +68,10 @@ import { ProcessData } from '@/helpers/backend';
         display: flex;
         flex-direction: column;
         margin: 10px;
+    }
+
+    form {
+      text-align: center;
     }
     .submit {
         display: flex;
